@@ -1,0 +1,121 @@
+	"displayName": "Thief-Book",
+	"description": "摸鱼看书神器 & Looking book tools",
+	"version": "0.1.0",
+	"engines": {
+		"vscode": "^1.34.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"txt",
+		"book",
+		"小说",
+		"神器",
+		"摸鱼"
+	],
+	"publisher": "C-TEAM",
+	"icon": "images/icon.png",
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"configuration": {
+			"title": "Thief-Book",
+			"type": "object",
+			"properties": {
+				"thiefBook.currPageNumber": {
+					"type": "number",
+					"default": 1,
+					"description": "当前小说页数(支持跳转) & Pages of Current Novels (Support jumping)"
+				},
+				"thiefBook.pageSize": {
+					"type": "number",
+					"default": 50,
+					"description": "每页文字数量 & Number of text per page"
+				},
+				"thiefBook.isEnglish": {
+					"type": "boolean",
+					"default": false,
+					"description": "是否为英文书籍？ & Is it an English book？"
+				},
+				"thiefBook.lineBreak": {
+					"type": "string",
+					"default": " ",
+					"description": "换行分隔符号，默认一个空格 & Line Break Separation Symbol,Default a space"
+				},
+				"thiefBook.filePath": {
+					"type": "string",
+					"default": "",
+					"description": "TXT格式小说绝对路径 & Absolute Path of TXT Format Novels"
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "extension.displayCode",
+				"title": "thief-book.DisplayCode"
+			},
+			{
+				"command": "extension.getPreviousPage",
+				"title": "thief-book.PreviousBook"
+			},
+			{
+				"command": "extension.getNextPage",
+				"title": "thief-book.NextBook"
+			},
+			{
+				"command": "extension.getJumpingPage",
+				"title": "thief-book.JumpingBook"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "extension.getPreviousPage",
+				"key": "ctrl+alt+,",
+				"mac": "cmd+,",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "extension.getNextPage",
+				"key": "ctrl+alt+.",
+				"mac": "cmd+.",
+				"when": "editorTextFocus"
+			},
+			{
+				"command": "extension.getJumpingPage",
+				"key": "ctrl+alt+;",
+				"mac": "cmd+;"
+			},
+			{
+				"command": "extension.displayCode",
+				"key": "ctrl+m",
+				"mac": "cmd+m"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "yarn run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "yarn run compile && node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"@types/mocha": "^2.2.42",
+		"@types/node": "^10.12.21",
+		"tslint": "^5.12.1",
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.34"
+	},
+	"bugs": {
+		"url": "https://github.com/cteams/Thief-Book-VSCode/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cteams/Thief-Book-VSCode"
+	},
+	"homepage": "https://github.com/cteams/Thief-Book-VSCode/blob/master/README.md"
+}
+
