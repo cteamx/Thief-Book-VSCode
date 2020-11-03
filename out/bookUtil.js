@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Book = void 0;
 const vscode_1 = require("vscode");
 const fs = require("fs");
 class Book {
@@ -21,8 +22,16 @@ class Book {
         console.log(file_name);
     }
     getPage(type) {
-        var curr_page = vscode_1.workspace.getConfiguration().get('thiefBook.currPageNumber');
         var page = 0;
+        var curr_page = vscode_1.workspace.getConfiguration().get('thiefBook.currPageNumber');
+        var searchWord = vscode_1.workspace.getConfiguration().get('thiefBook.searchWord');
+        if (searchWord) {
+            let text = this.readFile();
+            let index = text.indexOf(searchWord.replace(/^\s$/g, ""));
+            if (index > -1) {
+                curr_page = Math.floor(index / this.page_size) + 1;
+            }
+        }
         if (type === "previous") {
             if (curr_page <= 1) {
                 page = 1;
