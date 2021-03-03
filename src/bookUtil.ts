@@ -26,8 +26,17 @@ export class Book {
 
     getPage(type: string) {
 
-        var curr_page = <number>workspace.getConfiguration().get('thiefBook.currPageNumber');
         var page = 0;
+        var curr_page = <number>workspace.getConfiguration().get('thiefBook.currPageNumber');
+        var searchWord = <string>workspace.getConfiguration().get('thiefBook.searchWord');
+        if (searchWord) {
+            let text = this.readFile();
+            let index = text.indexOf(searchWord.replace(/^\s$/g, ""));
+            if (index > -1) {
+                curr_page = Math.floor(index / this.page_size!) + 1;
+            }
+            workspace.getConfiguration().update('thiefBook.searchWord', '', true);
+        }
 
         if (type === "previous") {
             if (curr_page! <= 1) {

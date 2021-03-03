@@ -1,3 +1,5 @@
+{
+	"name": "thief-book",
 	"displayName": "Thief-Book",
 	"description": "摸鱼看书神器 & Looking book tools",
 	"version": "0.1.0",
@@ -29,6 +31,11 @@
 					"type": "number",
 					"default": 1,
 					"description": "当前小说页数(支持跳转) & Pages of Current Novels (Support jumping)"
+				},
+				"thiefBook.searchWord": {
+					"type": "string",
+					"default": "",
+					"description": "搜索文字 & search the word"
 				},
 				"thiefBook.pageSize": {
 					"type": "number",
@@ -118,4 +125,3 @@
 	},
 	"homepage": "https://github.com/cteams/Thief-Book-VSCode/blob/master/README.md"
 }
-
