@@ -8,14 +8,17 @@ export class Book {
     start = 0;
     end = this.page_size;
     filePath: string | undefined = "";
+    currFilePath: string | undefined = "";
     extensionContext: ExtensionContext;
+    text: string = "";
+    textSize = 0;
 
     constructor(extensionContext: ExtensionContext) {
         this.extensionContext = extensionContext;
     }
 
     getSize(text: string) {
-        let size = text.length;
+        let size = this.textSize;
         this.page = Math.ceil(size / this.page_size!);
     }
 
@@ -78,13 +81,23 @@ export class Book {
     readFile() {
         if (this.filePath === "" || typeof (this.filePath) === "undefined") {
             window.showWarningMessage("请填写TXT格式的小说文件路径 & Please fill in the path of the TXT format novel file");
+            this.text = "";
+            this.currFilePath = "";
+            this.textSize = 0;
+        } else {
+            if (this.currFilePath != this.filePath) {
+                this.currFilePath = this.filePath;
+                var data = fs.readFileSync(this.filePath!, 'utf-8');
+                
+                var line_break = <string>workspace.getConfiguration().get('thiefBook.lineBreak');
+
+                this.text = data.toString().replace(/\n/g, line_break).replace(/\r/g, " ").replace(/　　/g, " ").replace(/ /g, " ");
+
+                this.textSize = this.text.length;
+            }
         }
 
-        var data = fs.readFileSync(this.filePath!, 'utf-8');
-        
-        var line_break = <string>workspace.getConfiguration().get('thiefBook.lineBreak');
-
-        return data.toString().replace(/\n/g, line_break).replace(/\r/g, " ").replace(/　　/g, " ").replace(/ /g, " ");
+        return this.text;
     }
 
     init() {
