@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
@@ -31,20 +39,38 @@ function activate(context) {
         vscode_1.window.setStatusBarMessage(lauage_arr_list[index]);
     });
     // 下一页
-    let getNextPage = vscode_1.commands.registerCommand('extension.getNextPage', () => {
-        let books = new book.Book(context);
-        vscode_1.window.setStatusBarMessage(books.getNextPage());
-    });
+    let getNextPage = vscode_1.commands.registerCommand('extension.getNextPage', () => __awaiter(this, void 0, void 0, function* () {
+        try {
+            let books = new book.Book(context);
+            const content = yield books.getNextPage();
+            vscode_1.window.setStatusBarMessage(content);
+        }
+        catch (error) {
+            vscode_1.window.showErrorMessage(`读取失败: ${error}`);
+        }
+    }));
     // 上一页
-    let getPreviousPage = vscode_1.commands.registerCommand('extension.getPreviousPage', () => {
-        let books = new book.Book(context);
-        vscode_1.window.setStatusBarMessage(books.getPreviousPage());
-    });
+    let getPreviousPage = vscode_1.commands.registerCommand('extension.getPreviousPage', () => __awaiter(this, void 0, void 0, function* () {
+        try {
+            let books = new book.Book(context);
+            const content = yield books.getPreviousPage();
+            vscode_1.window.setStatusBarMessage(content);
+        }
+        catch (error) {
+            vscode_1.window.showErrorMessage(`读取失败: ${error}`);
+        }
+    }));
     // 跳转某个页面
-    let getJumpingPage = vscode_1.commands.registerCommand('extension.getJumpingPage', () => {
-        let books = new book.Book(context);
-        vscode_1.window.setStatusBarMessage(books.getJumpingPage());
-    });
+    let getJumpingPage = vscode_1.commands.registerCommand('extension.getJumpingPage', () => __awaiter(this, void 0, void 0, function* () {
+        try {
+            let books = new book.Book(context);
+            const content = yield books.getJumpingPage();
+            vscode_1.window.setStatusBarMessage(content);
+        }
+        catch (error) {
+            vscode_1.window.showErrorMessage(`读取失败: ${error}`);
+        }
+    }));
     context.subscriptions.push(displayCode);
     context.subscriptions.push(getNextPage);
     context.subscriptions.push(getPreviousPage);

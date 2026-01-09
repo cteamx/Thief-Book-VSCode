@@ -1,6 +1,8 @@
+{
+	"name": "thief-book",
 	"displayName": "Thief-Book",
 	"description": "摸鱼看书神器 & Looking book tools",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"engines": {
 		"vscode": "^1.34.0"
 	},
@@ -48,7 +50,7 @@
 				"thiefBook.filePath": {
 					"type": "string",
 					"default": "",
-					"description": "TXT格式小说绝对路径 & Absolute Path of TXT Format Novels"
+					"description": "TXT或EPUB格式小说绝对路径 & Absolute Path of TXT or EPUB Format Novels"
 				}
 			}
 		},
@@ -102,9 +104,16 @@
 		"postinstall": "node ./node_modules/vscode/bin/install",
 		"test": "yarn run compile && node ./node_modules/vscode/bin/test"
 	},
+	"dependencies": {
+		"jszip": "^3.10.1",
+		"xmldom": "^0.6.0",
+		"xpath": "^0.0.33"
+	},
 	"devDependencies": {
+		"@types/jszip": "^3.4.1",
 		"@types/mocha": "^2.2.42",
 		"@types/node": "^10.12.21",
+		"@types/xmldom": "^0.1.34",
 		"tslint": "^5.12.1",
 		"typescript": "^3.3.1",
 		"vscode": "^1.1.34"
@@ -118,4 +127,3 @@
 	},
 	"homepage": "https://github.com/cteams/Thief-Book-VSCode/blob/master/README.md"
 }
-

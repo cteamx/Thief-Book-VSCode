@@ -36,21 +36,36 @@ export function activate(context: ExtensionContext) {
 	});
 
 	// 下一页
-	let getNextPage = commands.registerCommand('extension.getNextPage', () => {
+	let getNextPage = commands.registerCommand('extension.getNextPage', async () => {
+		try {
 		let books = new book.Book(context);
-		window.setStatusBarMessage(books.getNextPage());
+			const content = await books.getNextPage();
+			window.setStatusBarMessage(content);
+		} catch (error) {
+			window.showErrorMessage(`读取失败: ${error}`);
+		}
 	});
 
 	// 上一页
-	let getPreviousPage = commands.registerCommand('extension.getPreviousPage', () => {
+	let getPreviousPage = commands.registerCommand('extension.getPreviousPage', async () => {
+		try {
 		let books = new book.Book(context);
-		window.setStatusBarMessage(books.getPreviousPage());
+			const content = await books.getPreviousPage();
+			window.setStatusBarMessage(content);
+		} catch (error) {
+			window.showErrorMessage(`读取失败: ${error}`);
+		}
 	});
 
 	// 跳转某个页面
-	let getJumpingPage = commands.registerCommand('extension.getJumpingPage', () => {
+	let getJumpingPage = commands.registerCommand('extension.getJumpingPage', async () => {
+		try {
 		let books = new book.Book(context);
-		window.setStatusBarMessage(books.getJumpingPage());
+			const content = await books.getJumpingPage();
+			window.setStatusBarMessage(content);
+		} catch (error) {
+			window.showErrorMessage(`读取失败: ${error}`);
+		}
 	});
 
 	context.subscriptions.push(displayCode);
