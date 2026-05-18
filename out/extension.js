@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Import the module and reference it with the alias vscode in your code below
 const vscode_1 = require("vscode");
 const book = require("./bookUtil");
+let autoPlayTimer;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
@@ -23,6 +24,11 @@ function activate(context) {
     // The commandId parameter must match the command field in package.json
     // 老板键
     let displayCode = vscode_1.commands.registerCommand('extension.displayCode', () => {
+        // 停止自动播放
+        if (autoPlayTimer) {
+            clearInterval(autoPlayTimer);
+            autoPlayTimer = undefined;
+        }
         let lauage_arr_list = [
             'Java - System.out.println("Hello World");',
             'C++ - cout << "Hello, world!" << endl;',
@@ -71,10 +77,56 @@ function activate(context) {
             vscode_1.window.showErrorMessage(`读取失败: ${error}`);
         }
     }));
+    // 自动播放
+    let autoPlay = vscode_1.commands.registerCommand('extension.autoPlay', () => __awaiter(this, void 0, void 0, function* () {
+        // 如果正在播放 → 停止
+        if (autoPlayTimer) {
+            clearInterval(autoPlayTimer);
+            autoPlayTimer = undefined;
+            vscode_1.window.setStatusBarMessage('自动播放已停止');
+            return;
+        }
+        // 开始自动播放
+        let interval = vscode_1.workspace.getConfiguration().get('thiefBook.autoPlayInterval', 3);
+        if (interval < 1) {
+            interval = 1;
+        }
+        // 先立即显示一页
+        try {
+            let books = new book.Book(context);
+            const content = yield books.getNextPage();
+            vscode_1.window.setStatusBarMessage(content);
+        }
+        catch (error) {
+            vscode_1.window.showErrorMessage(`读取失败: ${error}`);
+            return;
+        }
+        // 设置定时器
+        autoPlayTimer = setInterval(() => __awaiter(this, void 0, void 0, function* () {
+            try {
+                let books = new book.Book(context);
+                const content = yield books.getNextPage();
+                vscode_1.window.setStatusBarMessage(content);
+            }
+            catch (error) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = undefined;
+            }
+        }), interval * 1000);
+    }));
     context.subscriptions.push(displayCode);
     context.subscriptions.push(getNextPage);
     context.subscriptions.push(getPreviousPage);
     context.subscriptions.push(getJumpingPage);
+    context.subscriptions.push(autoPlay);
+    context.subscriptions.push({
+        dispose: () => {
+            if (autoPlayTimer) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = undefined;
+            }
+        }
+    });
 }
 exports.activate = activate;
 // this method is called when your extension is deactivated

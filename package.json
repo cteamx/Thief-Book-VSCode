@@ -51,6 +51,11 @@
 					"type": "string",
 					"default": "",
 					"description": "TXT或EPUB格式小说绝对路径 & Absolute Path of TXT or EPUB Format Novels"
+				},
+				"thiefBook.autoPlayInterval": {
+					"type": "number",
+					"default": 3,
+					"description": "自动播放间隔(秒) & Auto play interval (seconds)"
 				}
 			}
 		},
@@ -70,6 +75,10 @@
 			{
 				"command": "extension.getJumpingPage",
 				"title": "thief-book.JumpingBook"
+			},
+			{
+				"command": "extension.autoPlay",
+				"title": "thief-book.AutoPlay"
 			}
 		],
 		"keybindings": [
@@ -92,13 +101,19 @@
 			},
 			{
 				"command": "extension.displayCode",
-				"key": "ctrl+m",
-				"mac": "cmd+m"
+				"key": "alt+m",
+				"mac": "alt+m"
+			},
+			{
+				"command": "extension.autoPlay",
+				"key": "alt+/",
+				"mac": "alt+/",
+				"when": "editorTextFocus"
 			}
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "yarn run compile",
+		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"postinstall": "node ./node_modules/vscode/bin/install",
